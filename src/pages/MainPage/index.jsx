@@ -1,11 +1,16 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import axios from '../../api/axios'
 import { getVideoInfo } from '../../helpers/fetchingData'
 import VideoCard from '../../compoents/VideoCard'
+import { SidebarContext } from '../../context/SidebarContext'
 const MainPage = () => {
   const storedVideos = JSON.parse(localStorage.getItem('mainVideos'))
   const [mainVideos,setMainVideos]  = useState(storedVideos || [])
+  const {setIsToggled} = useContext(SidebarContext)
 
+  useEffect(()=>{
+    setIsToggled(true)
+  },[])
   const getMainVideos = useCallback(async()=>{
     try{
       if(!storedVideos){
@@ -29,7 +34,7 @@ const MainPage = () => {
 
   return (
     <section className='mainGallery'>
-      {mainVideos.map(video=>{
+      {mainVideos.map(video=>(
         <VideoCard
           key={video.id.videoId}
           id={video.id.videoId}
@@ -39,7 +44,7 @@ const MainPage = () => {
           eInfo={video.extraInfo}
           channelInfo={video.channelInfo}
         />
-      })}
+      ))}
     </section>
   )
 }

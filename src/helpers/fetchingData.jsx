@@ -26,6 +26,17 @@ export const getVideoInfo = async(videosArr)=>{
     }
     return videosArr
   }catch(e){
-    console.log(e)
+    console.log('e1',e)
+  }
+}
+
+export const getRelatedVideos = async(videoId)=>{
+  try{
+    const response = await axios.get(
+      `/search?part=snippet&maxResults=10&relatedToVideoId=${videoId}&type=video`
+    )
+    return response.data.items
+  }catch(e){
+    console.log('e2',e)
   }
 }
